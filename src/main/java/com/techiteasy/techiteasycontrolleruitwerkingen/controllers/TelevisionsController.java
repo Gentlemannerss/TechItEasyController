@@ -2,38 +2,55 @@ package com.techiteasy.techiteasycontrolleruitwerkingen.controllers;
 
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.IndexOutOfBoundsException;
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.RecordNotFoundException;
-/*import org.apache.tomcat.util.http.fileupload.MultipartStream;*/
+import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.ToManyCharException;
+import com.techiteasy.techiteasycontrolleruitwerkingen.models.Television;
+import com.techiteasy.techiteasycontrolleruitwerkingen.repositories.TelevisionRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
 @RestController
+@RequestMapping("/tv")
 public class TelevisionsController {
-    private List<String> allTV = new ArrayList<>();
-
-    @PostMapping("/addTV") //het is beter om een @PostMapping toe te voegen voor meerdere tv's
-    public void addTV(@RequestParam String tv) {
-        allTV.add(tv);
+    private final TelevisionRepository repository;
+    public TelevisionsController(TelevisionRepository repository) {
+        this.repository = repository;
     }
 
-    /*@PostMapping("/addMultipleTv")
-    public void addMultipleTV(@RequestParam List<String> alltv) {
-       alltv.add(tv);
-    }*/
+    /*private List<String> allTV = new ArrayList<>();*/
 
-    @GetMapping("/getAllTV")
-    public List<String> getAllTV() {
-        return this.allTV;
+    @PostMapping("/addTelevision")
+    public ResponseEntity<Television> addTelevision(@RequestBody Television television) throws ToManyCharException {
+        if (television.getBrand().length() > 20) {
+            throw new ToManyCharException("Mag niet langer dan 20 letters zijn");
+        }
+        repository.save(television);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(television.getId()).toUri();
+        return ResponseEntity.created(location).body(television);
     }
 
-    @GetMapping("/getTV")
-    public String getTV() {
-        return this.allTV.get(0);
+
+    @GetMapping("/getTV/{id}")
+    public ResponseEntity<Television> getTelevision(@PathVariable Long id) throws RecordNotFoundException {
+        Optional<Television> optionalTelevision = repository.findById(id);
+        if (optionalTelevision.isEmpty()) {
+            throw new RecordNotFoundException("The value of id " + id + " doesn't exist");
+        }
+        Television television = optionalTelevision.get();
+        return ResponseEntity.ok().body(television);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Television>> getAllTelevisions(){
+        return new ResponseEntity<>(televisions, HttpStatus.OK);
     }
 
     @PutMapping("/allTV/{id}")

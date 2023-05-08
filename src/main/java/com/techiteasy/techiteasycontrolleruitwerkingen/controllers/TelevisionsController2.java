@@ -1,5 +1,6 @@
 package com.techiteasy.techiteasycontrolleruitwerkingen.controllers;
 
+import com.techiteasy.techiteasycontrolleruitwerkingen.repositories.TelevisionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
