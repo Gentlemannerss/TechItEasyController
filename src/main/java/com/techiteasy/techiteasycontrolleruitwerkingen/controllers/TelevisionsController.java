@@ -48,7 +48,7 @@ public class TelevisionsController {
         return ResponseEntity.ok().body(television);
     }
 
-    @GetMapping("/getAll")
+    /*@GetMapping("/getAll")
     public ResponseEntity<List<Television>> getAllTelevisions(){
         return new ResponseEntity<>(televisions, HttpStatus.OK);
     }
@@ -77,5 +77,5 @@ public class TelevisionsController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 }
