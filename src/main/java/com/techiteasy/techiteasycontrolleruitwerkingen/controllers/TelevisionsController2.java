@@ -1,3 +1,4 @@
+/*
 package com.techiteasy.techiteasycontrolleruitwerkingen.controllers;
 
 import com.techiteasy.techiteasycontrolleruitwerkingen.repositories.TelevisionRepository;
@@ -40,3 +41,4 @@ public class TelevisionsController2 {
         return ResponseEntity.noContent().build(); //als je iets verwijderd wil je terug naar een homepage of gebruikspagina.
     }
 }
+*/

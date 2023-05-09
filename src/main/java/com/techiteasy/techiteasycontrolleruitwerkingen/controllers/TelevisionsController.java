@@ -20,9 +20,9 @@ import static java.lang.Integer.parseInt;
 @RestController
 @RequestMapping("/tv")
 public class TelevisionsController {
-    private final TelevisionRepository repository;
+    private final TelevisionRepository televisionRepository;
     public TelevisionsController(TelevisionRepository repository) {
-        this.repository = repository;
+        this.televisionRepository = repository;
     }
 
     /*private List<String> allTV = new ArrayList<>();*/
@@ -32,7 +32,7 @@ public class TelevisionsController {
         if (television.getBrand().length() > 20) {
             throw new ToManyCharException("Mag niet langer dan 20 letters zijn");
         }
-        repository.save(television);
+        televisionRepository.save(television);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(television.getId()).toUri();
         return ResponseEntity.created(location).body(television);
     }
@@ -40,7 +40,7 @@ public class TelevisionsController {
 
     @GetMapping("/getTV/{id}")
     public ResponseEntity<Television> getTelevision(@PathVariable Long id) throws RecordNotFoundException {
-        Optional<Television> optionalTelevision = repository.findById(id);
+        Optional<Television> optionalTelevision = televisionRepository.findById(id);
         if (optionalTelevision.isEmpty()) {
             throw new RecordNotFoundException("The value of id " + id + " doesn't exist");
         }
