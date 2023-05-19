@@ -1,4 +1,4 @@
-package com.digicoachindezorg.didz_backend.exceptions;
+package com.techiteasy.techiteasycontrolleruitwerkingen.exceptions;
 
 public class ToManyCharException extends RuntimeException{
 

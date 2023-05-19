@@ -1,10 +1,12 @@
 package com.techiteasy.techiteasycontrolleruitwerkingen.controllers;
 
+import com.techiteasy.techiteasycontrolleruitwerkingen.dtos.TelevisionDto;
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.IndexOutOfBoundsException;
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.RecordNotFoundException;
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.ToManyCharException;
 import com.techiteasy.techiteasycontrolleruitwerkingen.models.Television;
 import com.techiteasy.techiteasycontrolleruitwerkingen.repositories.TelevisionRepository;
+import com.techiteasy.techiteasycontrolleruitwerkingen.services.TelevisionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +22,72 @@ import static java.lang.Integer.parseInt;
 @RestController
 @RequestMapping("/tv")
 public class TelevisionsController {
-    private final TelevisionRepository televisionRepository;
-    public TelevisionsController(TelevisionRepository repository) {
+
+    private final TelevisionService televisionService;
+
+    public TelevisionsController(TelevisionService televisionService) {
+        this.televisionService = televisionService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TelevisionDto>> getAllTelevisions() {
+        return ResponseEntity.ok().body(televisionService.getAllTelevisions());
+    }
+
+    /* WORKING ON CODE HERE:*/
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TelevisionDto> getTelevisionById(@PathVariable("id") Long id) {
+        TelevisionDto television = televisionService.getTelevisionById(id);
+        if (television != null) {
+            return ResponseEntity.ok().body(television);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/brand/{brand}")
+    public ResponseEntity<List<TelevisionDto>> getTelevisionsByBrand(@PathVariable("brand") String brand) {
+        List<TelevisionDto> televisions = televisionService.getTelevisionsByBrand(brand);
+        if (!televisions.isEmpty()) {
+            return ResponseEntity.ok().body(televisions);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionDto televisionDto) {
+        TelevisionDto addedTelevision = televisionService.addTelevision(televisionDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedTelevision);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TelevisionDto> updateTelevision(@PathVariable("id") Long id, @RequestBody TelevisionDto televisionDto) {
+        TelevisionDto updatedTelevision = televisionService.updateTelevision(id, televisionDto);
+        if (updatedTelevision != null) {
+            return ResponseEntity.ok().body(updatedTelevision);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTelevision(@PathVariable("id") Long id) {
+        boolean deleted = televisionService.deleteTelevision(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    /*public TelevisionsController(TelevisionRepository repository) {
         this.televisionRepository = repository;
     }
 
-    /*private List<String> allTV = new ArrayList<>();*/
+    private List<String> allTV = new ArrayList<>();
 
     @PostMapping("/addTelevision")
     public ResponseEntity<Television> addTelevision(@RequestBody Television television) throws ToManyCharException {
@@ -48,7 +110,15 @@ public class TelevisionsController {
         return ResponseEntity.ok().body(television);
     }
 
-    /*@GetMapping("/getAll")
+    @GetMapping
+    public ResponseEntity<List<Television>> getAllTelevisions(@RequestParam )
+        List<Television> televisions;
+
+    if (brand == null) {
+        televisions = televisionRepository
+    }
+
+    @GetMapping("/getAll")
     public ResponseEntity<List<Television>> getAllTelevisions(){
         return new ResponseEntity<>(televisions, HttpStatus.OK);
     }
