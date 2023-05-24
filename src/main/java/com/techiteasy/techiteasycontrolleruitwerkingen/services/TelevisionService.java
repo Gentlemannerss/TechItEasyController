@@ -57,8 +57,11 @@ public class TelevisionService {
         Optional<Television> optionalTelevision = televisionRepository.findById(id);
         if (optionalTelevision.isPresent()) {
             Television existingTelevision = optionalTelevision.get();
-            existingTelevision.setName(televisionDto.getName());
-            existingTelevision.setBrand(televisionDto.getBrand());
+            existingTelevision.setName(televisionDto.name); //GetName hoeft niet, kunt bij de public waarde ook de name aanroepen
+            existingTelevision.setBrand(televisionDto.getBrand()); //GetBrand hoeft niet, kunt bij de public waarde.
+/*
+            transferTelevisionToDto(existingTelevision);
+*/
             televisionRepository.save(existingTelevision);
             return transferTelevisionToDto(existingTelevision);
         }
