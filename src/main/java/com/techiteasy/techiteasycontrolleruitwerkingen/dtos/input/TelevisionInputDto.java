@@ -1,10 +1,14 @@
 package com.techiteasy.techiteasycontrolleruitwerkingen.dtos.input;
 
-import com.techiteasy.techiteasycontrolleruitwerkingen.models.Television;
+import com.techiteasy.techiteasycontrolleruitwerkingen.models.Remote;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class TelevisionInputDto {
     private Long id; //property is changed to private. This is to ensure that the id is not directly modified from outside the class.
     @NotNull //dit zorgt dat je kunt controleren en invloed hebt op de inhoud.
@@ -26,9 +30,10 @@ public class TelevisionInputDto {
     public Boolean ambiLight;
     public Integer originalStock;
     public Integer sold;
+    public Remote remote;
 
     // Constructor
-    public TelevisionInputDto() {
+    /*public TelevisionInputDto() {
     }
 
     // Getter and Setter methods
@@ -53,6 +58,5 @@ public class TelevisionInputDto {
         television.setAmbiLight(this.ambiLight);
         television.setOriginalStock(this.originalStock);
         television.setSold(this.sold);
-        return television;
+        return television;*/
     }
-}

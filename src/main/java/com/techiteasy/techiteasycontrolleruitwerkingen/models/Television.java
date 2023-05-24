@@ -1,11 +1,11 @@
 package com.techiteasy.techiteasycontrolleruitwerkingen.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter //lombok setter
 @Getter //lombok getter
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name = "televisions")
 public class Television {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
     private String brand;
@@ -67,4 +67,18 @@ public class Television {
         this.sold = sold;
     }
 
+    @OneToOne
+    @JsonIgnore
+    private Remote remote;
+
+    @OneToMany(mappedBy = "television")
+    private List<CiModule> ciModule;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "television_wallbracket",
+            joinColumns = @JoinColumn(name = "television_id"),
+            inverseJoinColumns = @JoinColumn(name = "wallbracket_id")
+    )
+    private List<WallBracket> wallBrackets;
 }

@@ -4,7 +4,11 @@ import com.techiteasy.techiteasycontrolleruitwerkingen.models.Television;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class TelevisionDto {
     //id kun je meegeven, maar dit is een afweging. Misschien wil iemand het id wel opvragen.
     private Long id; //property is changed to private. This is to ensure that the id is not directly modified from outside the class.
@@ -30,27 +34,6 @@ public class TelevisionDto {
 
     // Constructor
     public TelevisionDto() {
-    }
-
-    // Getters:
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-
-    // Setters:
-    public void setName(String name) {
-    }
-
-    public void setBrand(String brand) {
     }
 
 
