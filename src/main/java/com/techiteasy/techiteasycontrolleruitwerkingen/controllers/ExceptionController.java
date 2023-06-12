@@ -2,6 +2,7 @@ package com.techiteasy.techiteasycontrolleruitwerkingen.controllers;
 
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.RecordNotFoundException;
 import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.ToManyCharException;
+import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,4 +24,9 @@ public class ExceptionController {
     public ResponseEntity<Object> exception (ToManyCharException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.LENGTH_REQUIRED);
     }
+    @ExceptionHandler(value = BadRequestException.class)
+    public ResponseEntity<Object> exception (BadRequestException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -1,23 +1,13 @@
 package com.techiteasy.techiteasycontrolleruitwerkingen.controllers;
 
 import com.techiteasy.techiteasycontrolleruitwerkingen.dtos.TelevisionDto;
-import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.IndexOutOfBoundsException;
-import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.RecordNotFoundException;
-import com.techiteasy.techiteasycontrolleruitwerkingen.exceptions.ToManyCharException;
-import com.techiteasy.techiteasycontrolleruitwerkingen.models.Television;
-import com.techiteasy.techiteasycontrolleruitwerkingen.repositories.TelevisionRepository;
 import com.techiteasy.techiteasycontrolleruitwerkingen.services.TelevisionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
-import static java.lang.Integer.parseInt;
 
 @RestController
 @RequestMapping("/tv")
